@@ -10,7 +10,7 @@
 // any error happens we catch catch in the sub-process
 // all sub run paralelly so none will affect others
 
-import { takeEvery, takeLatest, call, fork, put } from 'redux-saga/effects';
+import { takeEvery, takeLatest, take, call, fork, put } from 'redux-saga/effects';
 import * as actions from '../actions/users';
 import * as api from '../api/users';
 
@@ -34,12 +34,29 @@ function* watchGetUsersRequest( ){
 
 function* createUser(action){
     try {
-        console.log(action);
-        console.log(action.payload.firstName);
         yield call(api.createUser, {firstName: action.payload.firstName, lastName: action.payload.lastName });
         yield call(getUsers)
     } catch (error) {
         
+    }
+}
+
+function* deleteUser({userId}){
+    try {
+        yield call(api.deleteUser, userId);
+        yield call(getUsers)
+    } catch (error) {
+        
+    }
+}
+
+function* watchDeleteUserRequest() {
+    while(true) {
+        const action = yield take(actions.Types.DELETE_USER_REQUEST);
+        console.log('action', action);
+        yield call(deleteUser, {
+            userId: action.payload.userId
+        })
     }
 }
 
@@ -49,7 +66,8 @@ function* watchCreateUserRequest() {
 
 const usersSagas = [
     fork(watchGetUsersRequest),
-    fork(watchCreateUserRequest)
+    fork(watchCreateUserRequest),
+    fork(watchDeleteUserRequest)
 ];
 
 export default usersSagas;
