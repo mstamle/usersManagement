@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     items: []
 };
 
-export default function users(state=INITIAL_STATE, action){
+export default function users(state = INITIAL_STATE, action){
     switch(action.type){
         case Types.GET_USERS_SUCCESS: {
             return {

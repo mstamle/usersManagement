@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { getUsersRequest } from '../actions/users';
+import UsersList from './UsersList'; 
+import NewUserForm from './NewUserForm';
 
 
 // function* testing(){
@@ -11,12 +13,16 @@ import { getUsersRequest } from '../actions/users';
 //   }
 // }
 class App extends Component {
-
   constructor(props){
     super(props);
     this.props.getUsersRequest();
   }
+  handleSubmit= ({firstName, lastName}) => {
+    console.log(firstName, lastName);
+
+  }
   render() {
+    const users = this.props.users;
     // const iterator = testing();
     // console.log(iterator.next());
     // runs all the code until the next yield statement
@@ -29,14 +35,16 @@ class App extends Component {
     // console.log(iterator.next());
     // console.log(iterator.next());
     // console.log(iterator.next());
+    console.log('here', this.props.users);
     return (
-      <div>
-        Test
+      <div style={{margin: '0 auto', padding: '20px', maxWidth: '600px'}}>
+        <NewUserForm onSubmit={this.handleSubmit} />
+        <UsersList users = {users.items}/>
       </div>
     )
   }
 }
 
-export default connect(null, {
+export default connect(({users}) => ({users}), {
   getUsersRequest
 })(App);

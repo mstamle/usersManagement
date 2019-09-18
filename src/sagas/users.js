@@ -8,16 +8,18 @@
 // any error happens we catch catch in the sub-process
 // all sub run paralelly so none will affect others
 
-import { takeEvery, call, fork } from 'redux-saga/effects';
+import { takeEvery, call, fork, put } from 'redux-saga/effects';
 import * as actions from '../actions/users';
 import * as api from '../api/users';
 
 function* getUsers(){
-    try{
+    try {
         const result = yield call(api.getUsers);
-        console.log(result);
-
-    }catch(e){
+        // console.log('data', result);
+        yield put(actions.getUsersSuccess({
+            items: result.data.data
+        }));
+    } catch(e) {
 
     }
 }
