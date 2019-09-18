@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { getUsersRequest } from '../actions/users';
+
 
 // function* testing(){
 //   while(true){
@@ -8,6 +11,11 @@ import React, {Component} from 'react';
 //   }
 // }
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.props.getUsersRequest();
+  }
   render() {
     // const iterator = testing();
     // console.log(iterator.next());
@@ -29,4 +37,6 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null, {
+  getUsersRequest
+})(App);
