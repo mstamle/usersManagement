@@ -1,5 +1,7 @@
 import React from 'react';
 import { ListGroup, ListGroupItem, Button } from 'reactstrap';
+import './app.css';
+import {getUserInitials} from '../utils/string'
 
 const UsersList = ({users, onDeleteUser}) => {
     return (
@@ -20,6 +22,7 @@ const UsersList = ({users, onDeleteUser}) => {
                 return (
                     <ListGroupItem key={user.id}>
                         <section style={{display:'flex'}}>
+                            <div className={'avatar'}>{getUserInitials(user.firstName,user.lastName)}</div>
                             <div style={{flexGrow: 1, margin: 'auto 0'}} >
                                 {user.firstName} {user.lastName}
                             </div>
